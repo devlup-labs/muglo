@@ -209,3 +209,83 @@ function searchFiles(query) {
   Logger.log(result);
   return result;
 }
+
+// getting all folders from spreadsheet to verify that while contributing user inputs folder ID from one f these folders itself
+
+function getAllFolders() {
+  var allFolders = [];
+  var ss = SpreadsheetApp.openById("ID_OF_SPREADSHEET_WHERE_FILES_AND_FOLDER_INFO_IS_STORED_FOR_SEARCH");
+  var sheet = ss.getSheetByName("NAME_OF_SHEET_CONTAINING_FILES_AND_FOLDERS_INFO");
+  var data = sheet.getDataRange().getValues();
+  var i = 1;
+  while (i < data.length) {
+    if (data[i][2] == "Folder") {
+      allFolders.push(data[i][1]);
+    }
+    i += 1
+  }
+  return allFolders;
+}
+
+
+// for transferring files from contributed folder to MugLo Drive Folder
+
+function sheetToDrive() {
+  var ss = SpreadsheetApp.openById("ID_OF_SPREADSHEET_CONTAINING_RESPONSES_FROM_GOOGLE_FORMS");
+  var responseSheet = ss.getSheetByName("NAME_OF_SHEET_CONTAINING_FORM_RESPONSES");
+  var responses = responseSheet.getDataRange().getValues();
+  var allFoldersInMuglo = getAllFolders();
+  var doc = DocumentApp.openById("ID_OF_GOOGLE_DOC_CONTAINING_INDEX_OF_ROW_FROM_WHERE_TO_START");
+  var docBody = doc.getBody().editAsText();
+  var ind = parseInt(docBody.getText());
+  var i = ind;
+  while (i < responses.length) {
+    if (responses[i][0] != "") {
+      try {
+        var parentFolderIdB64 = responses[i][4].replace("DONOTEDIT<", "");
+        parentFolderIdB64 = parentFolderIdB64.replace(">", "");
+        var parentFolderId = b64toString(parentFolderIdB64);
+        if (allFoldersInMuglo.includes(parentFolderId)) {
+          var folders = DriveApp.getFolderById(parentFolderId).getFoldersByName(responses[i][2]);
+          if (folders.hasNext()) {
+            var currentFolderId = folders.next().getId();
+          }
+          else {
+            var currentFolderId = DriveApp.getFolderById(parentFolderId).createFolder(responses[i][2]).getId();
+          }
+          var files = responses[i][3].split(", ");
+          var j = 0;
+          while (j < files.length) {
+            var file = files[j];
+            var fileId = file.replace("https://drive.google.com/open?id=", "");
+            Logger.log(fileId);
+            var fileToMove = DriveApp.getFileById(fileId);
+            fileToMove.getParents().next().removeFile(fileToMove);
+            DriveApp.getFolderById(currentFolderId).addFile(fileToMove);
+            j += 1;
+          }
+          responseSheet.getRange(i + 1, 1, 1, 5).setBackgroundRGB(28, 233, 21);
+          MailApp.sendEmail(responses[i][1], "Contribution to MugLo", "Your files have been successfully uploaded to MugLo. Here is the drive link to them: https://drive.google.com/open?id=" + currentFolderId + "\nThanks for contributing.");
+        }
+        else {
+          responseSheet.getRange(i + 1, 1, 1, 5).setBackgroundRGB(233, 35, 21);
+          MailApp.sendEmail(responses[i][1], "Failure in Uploading Files to MugLo", "An error occured while uploading your files! Please try uploading them again.");
+        }
+      }
+      catch (err) {
+        responseSheet.getRange(i + 1, 1, 1, 5).setBackgroundRGB(233, 35, 21);
+        MailApp.sendEmail(responses[i][1], "Failure in Uploading Files to MugLo", "An error occured while uploading your files! Please try uploading them again.");
+      }
+    }
+    i += 1
+  }
+  docBody.setText(i);
+}
+
+// decoding the b64 id again to normal
+
+function b64toString(code) {
+  var decoded = Utilities.base64Decode(code);
+  var finalString = Utilities.newBlob(decoded).getDataAsString();
+  return finalString;
+}

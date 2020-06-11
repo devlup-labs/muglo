@@ -191,3 +191,21 @@ function updateSpreadSheet() {
   }
 
 }
+
+// returns the search results to javascript file
+
+function searchFiles(query) {
+  var result = [];
+  var ss = SpreadsheetApp.openById("ID_OF_SPREADSHEET_WHERE_FILES_AND_FOLDER_INFO_IS_STORED_FOR_SEARCH");
+  var sheet = ss.getSheetByName("NAME_OF_SHEET_CONTAINING_FILES_AND_FOLDERS_INFO");
+  var data = sheet.getDataRange().getValues();
+  var i = 1;
+  while (i < data.length) {
+    if (data[i][0].toLowerCase().split(' ').join('').includes(query)) {
+      result.push(data[i]);
+    }
+    i += 1;
+  }
+  Logger.log(result);
+  return result;
+}

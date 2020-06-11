@@ -100,3 +100,59 @@ function getData(id) {
   var id = x.getId();
   return [id, name];
 }
+
+// For getting info of all files and folders for updating the search spreadsheet
+
+var allFiles = [];
+var allFolders = [];
+
+function FilesInfo(id) {
+  var folders = DriveApp.getFolderById(id).getFolders();
+
+  while (folders.hasNext()) {
+    var folder = folders.next();
+    var folderId = folder.getId();
+    var folderName = folder.getName();
+    var path = findPath(folderId);
+    allFolders.push([folderName, folderId, path]);
+    var files = folder.getFiles();
+    if (files.hasNext()) {
+      while (files.hasNext()) {
+        var file = files.next();
+        var name = file.getName();
+        var id = file.getId();
+        var path_for_file = findPath(id);
+        allFiles.push([name, id, path_for_file]);
+      }
+    }
+    else {
+      FilesInfo(folderId);
+    }
+  }
+
+}
+
+// for getting path of any file or folder
+
+var pathline = [];
+function getPath(id) {
+  var ids = DriveApp.getFileById(id).getParents();
+  while (ids.hasNext()) {
+    var id = ids.next();
+    pathline.push(id.getName());
+    if (id != null) {
+      getPath(id.getId());
+    }
+  }
+}
+
+function findPath(id) {
+  pathline = [];
+  getPath(id);
+  pathline.pop();
+  pathline.pop();
+  pathline.reverse();
+  pathline.push(DriveApp.getFileById(id).getName())
+  var final_path = pathline.join("/");
+  return final_path;
+}

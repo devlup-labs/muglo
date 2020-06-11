@@ -92,3 +92,11 @@ function Websitefetch(website_to_fetch) {
   var content = response.getContentText();
   return content
 }
+
+// getting id and name of folder for breadscrumb
+function getData(id) {
+  var x = DriveApp.getFolderById(id);
+  var name = x.getName();
+  var id = x.getId();
+  return [id, name];
+}

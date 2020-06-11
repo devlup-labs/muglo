@@ -156,3 +156,38 @@ function findPath(id) {
   var final_path = pathline.join("/");
   return final_path;
 }
+
+// updating the spreadsheet for search queries (has trigger for every 6 hours)
+
+function updateSpreadSheet() {
+  allFiles = [];
+  allFolders = [];
+  FilesInfo("ID_OF_FOLDER_CONTAINING_ALL_DATA");
+
+  var ss = SpreadsheetApp.openById("ID_OF_SPREADSHEET_WHERE_FILES_AND_FOLDER_INFO_IS_STORED_FOR_SEARCH");
+  var sheet = ss.getSheetByName("NAME_OF_SHEET_CONTAINING_FILES_AND_FOLDERS_INFO");
+  sheet.clear();
+  sheet.getRange(1, 1).setValue("Name");
+  sheet.getRange(1, 2).setValue("ID");
+  sheet.getRange(1, 3).setValue("Type");
+  sheet.getRange(1, 4).setValue("Path");
+  var i = 0;
+  while (i < allFiles.length) {
+    sheet.getRange(i + 2, 1).setValue(allFiles[i][0]);
+    sheet.getRange(i + 2, 2).setValue(allFiles[i][1]);
+    sheet.getRange(i + 2, 3).setValue("File");
+    sheet.getRange(i + 2, 4).setValue(allFiles[i][2]);
+    i += 1;
+  }
+
+  j = 0;
+  while (i < allFiles.length + allFolders.length) {
+    sheet.getRange(i + 2, 1).setValue(allFolders[j][0]);
+    sheet.getRange(i + 2, 2).setValue(allFolders[j][1]);
+    sheet.getRange(i + 2, 3).setValue("Folder");
+    sheet.getRange(i + 2, 4).setValue(allFolders[j][2]);
+    i += 1;
+    j += 1;
+  }
+
+}

@@ -84,3 +84,11 @@ function CardsDisplay(yearFolderId) {
   return [FoldersName, FoldersId];
 
 }
+
+
+// used to fetch the website using the embed url in grid view
+function Websitefetch(website_to_fetch) {
+  var response = UrlFetchApp.fetch(website_to_fetch);
+  var content = response.getContentText();
+  return content
+}

@@ -191,4 +191,59 @@
             google.script.run.withSuccessHandler(updateBreadCrumb).getData(FolderId);
         }
     };
+    
+    
+// called to fetch the child folders and files in a folder
+
+    function change(returnedArray) {
+
+        const [Folders, Files, FoldersId, ParentID] = returnedArray;
+
+        $(".FolderView").empty();
+        $("#case-folders").empty();
+        var embed_url = "https://drive.google.com/embeddedfolderview?id=" + ParentID + "#grid";
+        if (Files.length > 0) {
+            google.script.run.withSuccessHandler(webfetch).Websitefetch(embed_url);
+        };
+
+        if (Files.length == 0) {
+            $(".fetchedPage").remove();
+            if (Folders.length == 0) {
+                $(".FolderView").append("<div class='contribute' style='position:relative;'>"
+                    + "<a id='contriLink' href = 'https://docs.google.com/forms/d/e/1FAIpQLSdsLUZl0v7F6oDSc30s1bY1YpYTFOX9DgM5KfnTwmFXTh0clg/viewform?entry.1979278334=' target='_blank'><button type='button' class='btn btn-danger' onclick='addIdToLink()'><i class='fas fa-folder-plus' style='font-size: 200%;'></i> Contribute Here</button>"
+                    + "</a></div>");
+                $(".FolderView").append(
+                    "<div class = 'empty-folder' style='position: relative; z-index: 999;'><h1>Empty Folder</h1></div>"
+                );
+                $(".loading-parent").remove();
+            };
+        };
+
+
+
+        if (Folders.length > 0) {
+            $(".FolderView").append("<div class='contribute' style='position:relative;'>"
+                + "<a id='contriLink' href = 'https://docs.google.com/forms/d/e/1FAIpQLSdsLUZl0v7F6oDSc30s1bY1YpYTFOX9DgM5KfnTwmFXTh0clg/viewform?entry.1979278334=' target='_blank'><button type='button' class='btn btn-danger' onclick='addIdToLink()'><i class='fas fa-folder-plus' style='font-size: 200%;'></i> Contribute Here</button>"
+                + "</a></div>");
+            for (i = 0; i < Folders.length; i++) {
+                Folder = Folders[i];
+
+                $(".FolderView").append(
+                    "<a href='#header'>"
+                    + "<div class='book bttn show'" + "onclick =" + "doStuff('" + FoldersId[i] + "')>"
+                    + "<ul>"
+                    + "<li class='page page3'></li>"
+                    + "<li class='page page2'></li>"
+                    + "<li class='page page1'></li>"
+                    + "<li class='cover'>"
+                    + "<div class='card-title'><h5>" + Folder + "</h5></div>"
+                    + "</li>"
+                    + "</ul>"
+                    + "</div>"
+                    + "</a>");
+
+            };
+            $(".loading-parent").remove();
+        };
+    };
 </script>

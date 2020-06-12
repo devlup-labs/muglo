@@ -956,4 +956,50 @@
     #home-btn {
         cursor: pointer !important;
     }
+    
+    /* loaders */
+    .loading-parent {
+        padding-left: 50%;
+        width: 100%;
+        height: 500px;
+        background-color: #F7D9EB !important;
+    }
+
+    .loading {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        border: 10px solid #F20D0D;
+        border-top-color: rgba(0, 0, 0, 0.3);
+        box-sizing: border-box;
+        position: absolute;
+        left: 50%;
+        margin-left: -40px;
+        animation: loading 1.2s linear infinite;
+        -webkit-animation: loading 1.2s linear infinite;
+
+    }
+
+    @keyframes loading {
+        0% {
+            transform: rotate(0deg)
+        }
+
+        100% {
+            transform: rotate(360deg)
+        }
+    }
+
+    @-webkit-keyframes loading {
+        0% {
+            -webkit-transform: rotate(0deg)
+        }
+
+        100% {
+            -webkit-transform: rotate(360deg)
+        }
+    }
+
+    /* loaders end */
+
 </style>

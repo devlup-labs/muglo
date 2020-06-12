@@ -156,4 +156,39 @@
         }
 
     }
+    
+    
+// the function called every ome when someone clicks on a folder
+
+    function doStuff(FolderId) {
+        if ($("#Home").hasClass("show")) {
+            $("#Home").removeClass("show");
+            $("#Home").addClass("hide");
+            $("#header").removeClass("header");
+            $(".welcome").css("display", "none");
+            $("#nav-logo").css("width", "50px !important");
+            $(".navbar-collapse").addClass("nav-color");
+            $(".navbar").addClass("bg-colored");
+            $("#form").css("display", "none");
+            $("#Event").css("display", "block");
+            $("#Albums").css("display", "none");
+            $(".welcome-container").css("height", "20%");
+        };
+        $("#video").attr("src", "#");
+        $("#video").css("display", "none");
+        $(".FileView").css("display", "none");
+        $(".empty-folder").remove();
+        $(".WebsiteFetch").append("<div class='loading-parent text-center'><div class='loading'></div></div>");
+        $(".fetchedPage").remove();
+        $(".bttn").remove();
+        if (Namearray[Idarray.indexOf(FolderId)] == "Search Results") {
+            search(FolderId);
+            $("#list").empty();
+            $("#list").append("<li onclick='gohome()' class='breadcrumb-item active'>Home</li>");
+        }
+        else {
+            google.script.run.withSuccessHandler(change).Checker(FolderId);
+            google.script.run.withSuccessHandler(updateBreadCrumb).getData(FolderId);
+        }
+    };
 </script>

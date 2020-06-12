@@ -118,4 +118,42 @@
         document.getElementById("searchInput1").value = '';
         document.getElementById("searchInput2").value = '';
     }
+    
+    
+// function on backbutton
+    function goback() {
+        var prev = Idarray[Idarray.length - 2];
+        if (prev === undefined) {
+            $(".welcome-container").css("height", "100%");
+            $("#Home").removeClass("hide");
+            $("#Home").addClass("show");
+            $("#header").addClass("header");
+            $(".welcome").css("display", "flex");
+            $("#nav-logo").css("width", "60px !important");
+            $(".navbar-collapse").removeClass("nav-color");
+            $(".navbar-nav").removeClass("nav-color");
+            $(".navbar").removeClass("bg-colored");
+            $("#Event").css("display", "none");
+            $("#form").css("display", "block");
+            $("#Albums").css("display", "block");
+            $(".fetchedPage").remove();
+            $(".FolderView").empty();
+            $("#case-folders").empty();
+            $(".loading-parent").remove();
+            //FolderCounter(LatestFolderId);
+            Idarray.length = 0;
+            Namearray.length = 0;
+            $("#list").empty();
+            $("#list").append("<li onclick='gohome()' class='breadcrumb-item active'>Home</li>");
+            $("#back_link").attr("href", "#Albums");
+            document.getElementById("event-after-home").innerHTML = '';
+            document.getElementById("searchInput1").value = '';
+            document.getElementById("searchInput2").value = '';
+
+        }
+        else {
+            doStuff(prev.toString());
+        }
+
+    }
 </script>

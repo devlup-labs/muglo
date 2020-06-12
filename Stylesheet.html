@@ -1094,6 +1094,185 @@
             margin: 50px 5% !important;
         }
     }
+    
+    /* folders in search */
+
+    #case-folders .folder {
+        margin: auto;
+        margin-top: 50px;
+        margin-bottom: 50px;
+        margin-left: 35px;
+        margin-right: 35px;
+        position: relative;
+        top: 0;
+        left: 0;
+        background: #eee;
+        width: 300px;
+        height: 240px;
+        box-sizing: border-box;
+        border: 24px solid #f7d87c;
+        border-top-width: 64px;
+        border-radius: 5px;
+        transition: border-top-width 0.3s, transform 0.2s;
+        transform-origin: 0% 100%;
+        cursor: pointer;
+    }
+
+    #case-folders .folder:before,
+    #case-folders .folder:after {
+        content: '';
+        background: #f7d87c;
+    }
+
+    #case-folders .folder:before,
+    #case-folders .folder:after,
+    #case-folders .folder span {
+        position: absolute;
+    }
+
+
+    #case-folders .folder span,
+    #case-folders .folder:after {
+        width: 300px;
+        height: 216px;
+        line-height: 216px;
+        text-align: center;
+        bottom: -24px;
+        left: -24px;
+        transition: transform 0.2s, background 0.2s;
+        transform-origin: 0% 100%;
+    }
+
+    #case-folders .folder:after {
+        background: #fce2a7;
+        background: -moz-linear-gradient(top, #fce2a7 0%, #ffd885 100%);
+        background: -webkit-gradient(left top, left bottom, color-stop(0%, #fce2a7), color-stop(100%, #ffd885, ));
+        background: -webkit-linear-gradient(top, #fce2a7 0%, #ffd885 100%);
+        background: -o-linear-gradient(top, #fce2a7 0%, #ffd885 100%);
+        background: -ms-linear-gradient(top, #fce2a7 0%, #ffd885 100%);
+        background: linear-gradient(to bottom, #fce2a7 0%, #ffd885 100%);
+        border-radius: 6.5px;
+    }
+
+    #case-folders .folder span {
+        bottom: 50px;
+        padding: 10px;
+        background-color: rgba(255, 255, 255, .3);
+        border-radius: 5px;
+        left: 0;
+        line-height: 28px;
+        font-weight: 600;
+        width: 100%;
+        height: 80px;
+        z-index: 2;
+        font-size: 28px;
+        color: #8a6d3b;
+        text-align: center;
+        text-shadow: 0 1px 0 rgba(255, 255, 255, 0.25);
+        text-transform: capitalize;
+    }
+
+    #case-folders .folder:hover,
+    #case-folders .folder.open {
+        border-top-width: 6px;
+    }
+
+    #case-folders .folder:hover span,
+    #case-folders .folder:active span {
+        margin-left: 25px;
+        -webkit-transition: all .15s ease-in-out;
+        -moz-transition: all .15s ease-in-out;
+        -o-transition: all .15s ease-in-out;
+        transition: all .15s ease-in-out;
+    }
+
+    #case-folders .folder:hover:after,
+    #case-folders .folder:hover span,
+    #case-folders .folder.open:after,
+    #case-folders .folder.open span {
+        transform: scaleY(0.85) skewX(-15deg);
+    }
+
+    .folder .alert {
+        margin: 10px;
+        padding: 7.5px;
+    }
+
+    #case-folders.well {
+        margin: 30px;
+    }
+
+    @media(max-width:1200px) {
+        #case-folders .folder {
+            width: 220px !important;
+            height: 180px !important;
+            margin-left: 3%;
+            margin-right: 3%;
+        }
+
+        #case-folders .folder span,
+        #case-folders .folder:after {
+            width: 220px;
+            height: 180px;
+            line-height: normal;
+            bottom: -24px;
+            left: -24px;
+        }
+    }
+
+    @media(max-width:992px) {
+        #case-folders .folder {
+            width: 300px !important;
+            height: 240px !important;
+            margin-left: 3%;
+            margin-right: 3%;
+        }
+
+        #case-folders .folder span,
+        #case-folders .folder:after {
+            width: 300px;
+            height: 240px;
+            line-height: normal;
+            bottom: -24px;
+            left: -24px;
+        }
+    }
+
+    @media(max-width:768px) {
+        #case-folders .folder {
+            width: 220px !important;
+            height: 180px !important;
+            margin-left: 3%;
+            margin-right: 3%;
+        }
+
+        #case-folders .folder span,
+        #case-folders .folder:after {
+            width: 220px;
+            height: 180px;
+            line-height: normal;
+            bottom: -24px;
+            left: -24px;
+        }
+    }
+
+    @media(max-width:551px) {
+        #case-folders .folder {
+            width: 300px !important;
+            height: 240px !important;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #case-folders .folder span,
+        #case-folders .folder:after {
+            width: 300px;
+            height: 240px;
+            line-height: normal;
+            bottom: -24px;
+            left: -24px;
+        }
+    }
 
     .form-control {
         border-width: 2px !important;

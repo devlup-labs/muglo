@@ -52,7 +52,41 @@
         <div id="status">&nbsp;</div>
     </div>
     
-    
+    <div class="auth-cover">
+        <div class="authentication text-center" id="authentication">
+
+            <div class="auth-image">
+                <img src="https://drive.google.com/uc?export=download&id=1sl6pZBDC0WATWJ7Ta93HbVMwsBWPY2nU"
+                    style="width:200px; height:auto;">
+            </div>
+            <div class="auth-message">
+                <h1>Sign in to continue</h1>
+            </div>
+            <div class="g-signin2" data-onsuccess="onSignIn"></div>
+            <script>
+                function onSignIn(googleUser) {
+
+                    var profile = googleUser.getBasicProfile();
+                    var myUserEntity = {};
+                    myUserEntity.Id = profile.getId();
+                    myUserEntity.Name = profile.getName();
+                    sessionStorage.setItem('myUserEntity', JSON.stringify(myUserEntity));
+
+                    document.querySelector(
+                        "#demo").style.display = "none";
+
+                    $("#website-body").removeClass("hide");
+                    document.querySelector(
+                        "#website-body").style.display = "block";
+
+                    $(".auth-cover").removeClass("show");
+                    $(".auth-cover").addClass("hide");
+
+                }   
+            </script>
+        </div>
+    </div>
+
 
     <!-- JQuery -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>

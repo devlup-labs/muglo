@@ -294,4 +294,29 @@
 
     };
 
+    
+// called when cross is clicked on iframe
+
+    function close_book() {
+        $("#video").attr("src", "#");
+        $("#video").css("display", "none");
+        $(".FileView").css("display", "none");
+    }
+
+
+// to make the iframe full screen
+
+    function fullScreen() {
+        var elem = document.getElementById("video");
+
+        if (elem.requestFullscreen) {
+            elem.requestFullscreen();
+        } else if (elem.mozRequestFullScreen) { /* Firefox */
+            elem.mozRequestFullScreen();
+        } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+            elem.webkitRequestFullscreen();
+        } else if (elem.msRequestFullscreen) { /* IE/Edge */
+            elem.msRequestFullscreen();
+        }
+    }
 </script>

@@ -1,0 +1,19 @@
+<script>
+
+// For getting all folders inside main folder and putting in dropdown box
+    google.script.run.withSuccessHandler(yearbtn).Yearbtn();
+    let LatestFolderId = ' ';
+    function yearbtn(returnedArray_from_Yearbtn) {
+        const [FolderName, FolderId] = returnedArray_from_Yearbtn;
+        for (i = 0; i < FolderName.length; i++) {
+            Folder = FolderName[i];
+            $(".dropdown-menu").append("<p class ='dropdown-item'" + "id = '" + FolderId[i] + "' onclick = " + "FolderCounter('" + FolderId[i] + "')" + ">" + Folder + "</p>");
+        };
+
+        LatestFolderId = FolderId[0];
+        FolderCounter(LatestFolderId);
+        document.getElementById("year_btn").innerHTML = FolderName[0];
+
+    };
+
+</script>

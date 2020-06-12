@@ -438,4 +438,45 @@
         var download_url = "https://drive.google.com/uc?export=download&id=" + id;
         $(".download_url").attr("href", download_url);
     }
+    
+    
+// called when "Home" or "Event" is clicked in navbar
+    function hideMenu() {
+        $(".navbar-collapse").removeClass("show");
+        $(".navbar-toggler").attr("aria-expanded", "false");
+        $(".navbar-toggler").addClass("collapsed");
+
+        $(".welcome-container").css("height", "100%");
+        $("#Home").removeClass("hide");
+        $("#Home").addClass("show");
+        $("#header").addClass("header");
+        $(".welcome").css("display", "flex");
+        $("#nav-logo").css("width", "60px !important");
+        $(".navbar-collapse").removeClass("nav-color");
+        $(".navbar-nav").removeClass("nav-color");
+        $(".navbar").removeClass("bg-colored");
+        $("#Event").css("display", "none");
+        $("#form").css("display", "block");
+        $("#Albums").css("display", "block");
+        $(".fetchedPage").remove();
+        $(".FolderView").empty();
+        $("#case-folders").empty();
+        $(".loading-parent").remove();
+        Idarray.length = 0;
+        Namearray.length = 0;
+        $("#list").empty();
+        $("#list").append("<li onclick='gohome()' class='breadcrumb-item active'>Home</li>");
+        $("#back_link").attr("href", "#Albums");
+        document.getElementById("event-after-home").innerHTML = '';
+        document.getElementById("searchInput1").value = '';
+        document.getElementById("searchInput2").value = '';
+    }
+
+
+// called when "Disquss" or "Sign Out" is clicked in nav-bar
+    function hideDisqusMenu() {
+        $(".navbar-collapse").removeClass("show");
+        $(".navbar-toggler").attr("aria-expanded", "false");
+        $(".navbar-toggler").addClass("collapsed");
+    }
 </script>

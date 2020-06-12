@@ -330,4 +330,112 @@
         link = link + "DONOTEDIT<" + b64 + ">";
         $("#contriLink").attr("href", link);
     }
+    
+    
+// fetches results of search query from Code.gs file
+
+    function search() {
+        var query1 = document.getElementById("searchInput1").value.toLowerCase().split(' ').join('');
+        var query2 = document.getElementById("searchInput2").value.toLowerCase().split(' ').join('');
+        if (query1 != "") {
+            Namearray.length = 0;
+            Idarray.length = 0;
+            Namearray.push("Search Results");
+            Idarray.push(query1);
+            document.getElementById("event-after-home").innerHTML = 'Search Results';
+            google.script.run.withSuccessHandler(displayFolders).searchFiles(query1);
+        }
+        else if (query2 != "") {
+            Namearray.length = 0;
+            Idarray.length = 0;
+            Namearray.push("Search Results");
+            Idarray.push(query2);
+            document.getElementById("event-after-home").innerHTML = 'Search Results';
+            google.script.run.withSuccessHandler(displayFolders).searchFiles(query2);
+        }
+    }
+
+
+// displays the folders and files of results obtained for search query from Code.gs file
+
+    function displayFolders(result) {
+        if ($("#Home").hasClass("show")) {
+            $("#Home").removeClass("show");
+            $("#Home").addClass("hide");
+            $("#header").removeClass("header");
+            $(".welcome").css("display", "none");
+            $("#nav-logo").css("width", "50px !important");
+            $(".navbar-nav").addClass("nav-color");
+            $(".navbar").addClass("bg-colored");
+            $("#form").css("display", "none");
+            $("#Event").css("display", "block");
+            $("#Albums").css("display", "none");
+            $(".welcome-container").css("height", "20%");
+        };
+
+        $(".WebsiteFetch").append("<div class='loading-parent text-center'><div class='loading'></div></div>");
+
+        if (result.length == 0) {
+            $(".FolderView").empty();
+            $("#case-folders").empty();
+            $("#video").attr("src", "#");
+            $("#video").css("display", "none");
+            $(".FileView").css("display", "none");
+
+            $(".WebsiteFetch").empty();
+
+            $(".FolderView").append(
+                "<div class = 'empty-folder' style='position: relative; z-index: 999;'><h1>No results found</h1></div>");
+        }
+        else {
+            $(".FolderView").empty();
+            $("#case-folders").empty();
+            $("#video").attr("src", "#");
+            $("#video").css("display", "none");
+            $(".FileView").css("display", "none");
+            $(".WebsiteFetch").empty();
+
+            for (i = 0; i < result.length; i++) {
+                if (result[i][2] == "File") {
+
+                    $(".WebsiteFetch").append(
+                        "<a href='#video'>"
+                        + "<div class='book bttn show'" + "onclick =" + "openBook('" + result[i][1] + "')>"
+                        + "<span class='tooltiptext'>" + result[i][3] + "</span>"
+                        + "<ul>"
+                        + "<li class='page page3'></li>"
+                        + "<li class='page page2'></li>"
+                        + "<li class='page page1'></li>"
+                        + "<li class='cover'>"
+                        + "<div class='card-title'><h5>" + result[i][0] + "</h5></div>"
+                        + "</li>"
+                        + "</ul>"
+                        + "</div>"
+                        + "</a>");
+
+                }
+                else {
+                    $("#case-folders").append(
+
+                        "<div class='folder bttn show' id='wallop' onclick=" + "doStuff('" + result[i][1] + "')><span>" + result[i][0] + "</span>"
+                        + "</div>"
+
+                    );
+                }
+            }
+        }
+
+        $(".loading-parent").remove();
+    }
+
+
+// to open a book obtained in search results
+    function openBook(id) {
+        var embed_url = "https://drive.google.com/file/d/" + id + "/preview";
+        $(".FileView").css("display", "block");
+        $("#video").css("display", "block");
+        $("#video").attr("src", embed_url);
+        var download_url = "https://drive.google.com/uc?export=download&id=" + id;
+        $(".download_url").attr("href", download_url);
+    }
 </script>

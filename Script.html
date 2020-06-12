@@ -246,4 +246,52 @@
             $(".loading-parent").remove();
         };
     };
+    
+    
+// For fetching all the files within a folder
+
+    function webfetch(content) {
+        driveLinks = [];
+        $(".download-btn").remove();
+        $(".fetchedPage").remove();
+        $(".WebsiteFetch").append("<div class = 'fetchedPage'>" + content + "</div>");
+        $(".flip-contents").removeClass("flip-list-view");
+        $(".flip-contents").addClass("flip-grid-view");
+        $(".flip-entry-list-icon").remove();
+        $(".flip-entry-info a").attr("data-lightbox", "Images");
+        imgViewer();
+    };
+    
+    
+// called whenever the url is fetched to bring in all the files
+
+    var driveLinks = [];
+    function imgViewer() {
+        var imglist = $(".flip-entry img");
+        var lg_imglist = $(".flip-entry-info a");
+        for (i = 0; i < imglist.length; i++) {
+            var lg_img = lg_imglist[i];
+            driveLinks.push($(lg_img).attr("href"));
+            $(lg_img).removeAttr("href");
+            $(lg_img).attr("id", i.toString());
+        }
+
+        $(".flip-entry-info a").click(function () {
+            var id = $(this).attr("id");
+            var num = parseInt(id);
+            var link = driveLinks[num];
+            link = link.replace("https://drive.google.com/file/d/", "");
+            link = link.replace("/view?usp=drive_web", "");
+            var embed_url = "https://drive.google.com/file/d/" + link + "/preview";
+            $(".FileView").css("display", "block");
+            $("#video").css("display", "block");
+            $("#video").attr("src", embed_url);
+            var download_url = "https://drive.google.com/uc?export=download&id=" + link;
+            $(".download_url").attr("href", download_url);
+        });
+
+        $(".loading-parent").remove();
+
+    };
+
 </script>

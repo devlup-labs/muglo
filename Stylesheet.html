@@ -793,4 +793,99 @@
     .breadcrumb-item {
         text-transform: capitalize;
     }
+    
+    .flip-entries {
+        width: 100%;
+        background-color: F4F4F4;
+        display: block;
+        height: 100vh;
+        overflow-y: auto;
+        padding: 50px 20px !important;
+        position: relative;
+    }
+
+    .flip-entries::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    .flip-entries::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 5px grey;
+        border-radius: 5px;
+    }
+
+    .flip-entries::-webkit-scrollbar-thumb {
+        background: #F20D0D;
+        border-radius: 5px;
+    }
+
+    .flip-entries::-webkit-scrollbar-thumb:hover {
+        background: #DA1010;
+    }
+
+    .flip-entry-title {
+        margin-bottom: -5px !important;
+    }
+
+    .flip-grid-view .flip-entry {
+        height: 190px !important;
+        margin: 0 1% 35px 1% !important;
+        position: relative;
+        text-align: center;
+        border-radius: 5px !important;
+        width: 18% !important;
+        display: inline-block;
+        overflow: hidden;
+    }
+
+    @media(max-width:1200px) {
+        .flip-grid-view .flip-entry {
+            height: 190px !important;
+            margin: 0 2.5% 25px 2.5% !important;
+            width: 20% !important;
+        }
+    }
+
+
+
+    @media(max-width:992px) {
+        .flip-grid-view .flip-entry {
+            height: 190px !important;
+            margin: 0 2.66% 25px 2.66% !important;
+            width: 28% !important;
+        }
+
+    }
+
+
+
+    @media(max-width:768px) {
+        .flip-grid-view .flip-entry {
+            height: 190px !important;
+            margin: 0 5% 20px 5% !important;
+            width: 40% !important;
+        }
+
+
+    }
+
+    @media(max-width:576px) {
+        .flip-grid-view .flip-entry {
+            height: 190px !important;
+            margin: 0 2.5% 15px 2.5% !important;
+            width: 95% !important;
+        }
+
+    }
+
+
+
+    .flip-entry-thumb img {
+        border: none !important;
+        height: 180px !important;
+        width: 270px !important;
+        box-shadow: none !important;
+        display: inline-block;
+
+    }
+
 </style>

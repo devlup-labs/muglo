@@ -16,4 +16,38 @@
 
     };
 
+    
+// For getting info of folders of the dropdown item clicked from the Code.gs file
+    function FolderCounter(FolderId) {
+        $(".cards-holder").empty();
+        $(".cards-holder").append("<div class='loading-parent text-center'><div class='loading'></div></div>");
+        var name = document.getElementById(FolderId).innerHTML;
+        document.getElementById("year_btn").innerHTML = name;
+        google.script.run.withSuccessHandler(Show_Folders).CardsDisplay(FolderId);
+    };
+
+    
+// Displaying all the folders of the dropdown item received by Cards Display function in Code.gs File
+    function Show_Folders(returnedArray_from_CardsDisplay) {
+        let [FolderName, FolderId] = returnedArray_from_CardsDisplay;
+        for (i = 0; i < FolderName.length; i++) {
+            Folder = FolderName[i];
+
+            $(".cards-holder").append(
+                "<a href='#header'>"
+                + "<div class='book'" + "onclick =" + "doStuff('" + FolderId[i] + "')>"
+                + "<ul>"
+                + "<li class='page page3'></li>"
+                + "<li class='page page2'></li>"
+                + "<li class='page page1'></li>"
+                + "<li class='cover'>"
+                + "<div class='card-title'><h5>" + Folder + "</h5></div>"
+                + "</li>"
+                + "</ul>"
+                + "</div>"
+                + "</a>");
+
+        };
+        $(".loading-parent").remove();
+    };
 </script>

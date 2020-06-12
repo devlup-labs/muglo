@@ -40,8 +40,21 @@
 </head>
 
 <body>
+    
+    <div class="demo" id="demo">
+        <div class="cp-preloader cp-preloader_type4">
+            <span class="cp-preloader__letter" data-preloader="M">M</span>
+            <span class="cp-preloader__letter" data-preloader="u">u</span>
+            <span class="cp-preloader__letter" data-preloader="g">g</span>
+            <span class="cp-preloader__letter" data-preloader="L">L</span>
+            <span class="cp-preloader__letter" data-preloader="o">o</span>
+        </div>
+        <div id="status">&nbsp;</div>
+    </div>
+    
+    
 
-<!-- JQuery -->
+    <!-- JQuery -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <!-- Bootstrap tooltips -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js">
@@ -53,9 +66,45 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.15.0/js/mdb.min.js">
     </script>
 
-
-
     <?!= include('Script'); ?>
+    
+    
+    <!-- preloader -->
+    <script>
+        document.onreadystatechange = function () {
+            if (document.readyState !== "complete") {
+                document.querySelector(
+                    ".auth-cover").style.display = "none";
+                document.querySelector(
+                    "#website-body").style.display = "none";
+                $("#website-body").addClass("hide");
+                document.querySelector(
+                    "#demo").style.visibility = "visible";
+                document.querySelector(
+                    "#demo").style.display = "block";
+                console.log("not complete");
+
+            } else {
+
+                if (sessionStorage.getItem('myUserEntity') == null) {
+                    document.querySelector(
+                        ".auth-cover").style.display = "block";
+                    $(".auth-cover").addClass("show");
+                    document.querySelector(
+                        "#demo").style.display = "none";
+                } else {
+                    document.querySelector(
+                        "#demo").style.display = "none";
+                    document.querySelector(
+                        "#website-body").style.display = "block";
+                }
+
+                console.log("complete");
+            }
+        };
+
+
+    </script>
     
 </body>
 

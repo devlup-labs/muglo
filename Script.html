@@ -210,7 +210,7 @@
             $(".fetchedPage").remove();
             if (Folders.length == 0) {
                 $(".FolderView").append("<div class='contribute' style='position:relative;'>"
-                    + "<a id='contriLink' href = 'https://docs.google.com/forms/d/e/1FAIpQLSdsLUZl0v7F6oDSc30s1bY1YpYTFOX9DgM5KfnTwmFXTh0clg/viewform?entry.1979278334=' target='_blank'><button type='button' class='btn btn-danger' onclick='addIdToLink()'><i class='fas fa-folder-plus' style='font-size: 200%;'></i> Contribute Here</button>"
+                    + "<a id='contriLink' href = 'https://docs.google.com/forms/d/e/ID_OF_FORM/viewform?entry.ENTRY_NO_FOR_FIELD=' target='_blank'><button type='button' class='btn btn-danger' onclick='addIdToLink()'><i class='fas fa-folder-plus' style='font-size: 200%;'></i> Contribute Here</button>"
                     + "</a></div>");
                 $(".FolderView").append(
                     "<div class = 'empty-folder' style='position: relative; z-index: 999;'><h1>Empty Folder</h1></div>"
@@ -223,7 +223,7 @@
 
         if (Folders.length > 0) {
             $(".FolderView").append("<div class='contribute' style='position:relative;'>"
-                + "<a id='contriLink' href = 'https://docs.google.com/forms/d/e/1FAIpQLSdsLUZl0v7F6oDSc30s1bY1YpYTFOX9DgM5KfnTwmFXTh0clg/viewform?entry.1979278334=' target='_blank'><button type='button' class='btn btn-danger' onclick='addIdToLink()'><i class='fas fa-folder-plus' style='font-size: 200%;'></i> Contribute Here</button>"
+                + "<a id='contriLink' href = 'https://docs.google.com/forms/d/e/ID_OF_FORM/viewform?entry.ENTRY_NO_FOR_FIELD=' target='_blank'><button type='button' class='btn btn-danger' onclick='addIdToLink()'><i class='fas fa-folder-plus' style='font-size: 200%;'></i> Contribute Here</button>"
                 + "</a></div>");
             for (i = 0; i < Folders.length; i++) {
                 Folder = Folders[i];
@@ -318,5 +318,16 @@
         } else if (elem.msRequestFullscreen) { /* IE/Edge */
             elem.msRequestFullscreen();
         }
+    }
+    
+    
+// adding id of folder to pre-filled link of form in base-64 conversion
+
+    function addIdToLink() {
+        const FolderId = Idarray[Idarray.length - 1].toString();
+        var b64 = btoa(FolderId);
+        var link = $("#contriLink").attr("href");
+        link = link + "DONOTEDIT<" + b64 + ">";
+        $("#contriLink").attr("href", link);
     }
 </script>

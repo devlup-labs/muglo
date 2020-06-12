@@ -222,6 +222,31 @@
                     });
                 }
             </script>
+            
+            <div class="welcome-container">
+                <div class="welcome">
+                    <div class="welcomeMsg">
+                        <h1 class="text-center">Welcome</h1>
+                        <h3 class="text-center">To</h3>
+                        <div id="typed-strings">
+                            <p id="welcomeMuglo">MugLo</p>
+                            <p id="welcomeMsgMuglo">One place for All your Notes</p>
+                        </div>
+                        <span id="typed"></span>
+                        <script>
+                            var typed = new Typed('#typed', {
+                                stringsElement: '#typed-strings',
+                                backSpeed: 40,
+                                typeSpeed: 40,
+                                loop: true,
+                                loopCount: Infinity,
+                                cursorChar: ' _',
+                            });
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </header>
 
     </div>
 

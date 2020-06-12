@@ -50,4 +50,72 @@
         };
         $(".loading-parent").remove();
     };
+    
+    
+// for breadscrumb
+    var Idarray = [];
+    var Namearray = [];
+
+    function updateBreadCrumb(arg) {
+        if (Idarray.includes(arg[0])) {
+
+            var ind = Idarray.indexOf(arg[0]);
+            Idarray = Idarray.slice(0, ind + 1);
+            Namearray = Namearray.slice(0, ind + 1);
+            $("#list").empty();
+            $("#list").append("<li onclick='gohome()' class='breadcrumb-item'>Home</li>");
+            for (i = 0; i < Idarray.length; i++) {
+                $("#list").append(
+                    "<li onclick=" + "doStuff('" + Idarray[i] + "')  class='breadcrumb-item'>" + Namearray[i] + "</li>");
+            }
+
+        }
+        else {
+
+            Idarray.push(arg[0]);
+            Namearray.push(arg[1]);
+            $("#list").empty();
+            $("#list").append("<li onclick='gohome()' class='breadcrumb-item'>Home</li>");
+            for (i = 0; i < Idarray.length; i++) {
+                $("#list").append(
+                    "<li onclick=" + "doStuff('" + Idarray[i] + "')  class='breadcrumb-item'>" + Namearray[i] + "</li>");
+            }
+
+        }
+
+        $("#list li").last().addClass("disabled");
+        $("#list li").last().addClass("active");
+        document.getElementById("event-after-home").innerHTML = Namearray[Namearray.length-1];
+
+    }
+
+
+// when someone clicks on the "Home" in breadscrumb
+    function gohome() {
+        $(".welcome-container").css("height", "100%");
+        $("#Home").removeClass("hide");
+        $("#Home").addClass("show");
+        $("#header").addClass("header");
+        $(".welcome").css("display", "flex");
+        $("#nav-logo").css("width", "60px !important");
+        $(".navbar-collapse").removeClass("nav-color");
+        $(".navbar-nav").removeClass("nav-color");
+        $(".navbar").removeClass("bg-colored");
+        $("#Event").css("display", "none");
+        $("#form").css("display", "block");
+        $("#Albums").css("display", "block");
+        $(".fetchedPage").remove();
+        $(".FolderView").empty();
+        $("#case-folders").empty();
+        $(".loading-parent").remove();
+        //FolderCounter(LatestFolderId);
+        Idarray.length = 0;
+        Namearray.length = 0;
+        $("#list").empty();
+        $("#list").append("<li onclick='gohome()' class='breadcrumb-item active'>Home</li>");
+        $("#back_link").attr("href", "#Albums");
+        document.getElementById("event-after-home").innerHTML = '';
+        document.getElementById("searchInput1").value = '';
+        document.getElementById("searchInput2").value = '';
+    }
 </script>

@@ -381,4 +381,86 @@
     .navbar-toggler {
         z-index: 999;
     }
+    
+    #Home {
+        width: 90%;
+        margin-left: 5%;
+    }
+
+
+    .About {
+        height: 100vh;
+        padding-top: 100px !important;
+    }
+
+    @media(max-width:1200px) {
+        .About {
+            height: fit-content !important;
+        }
+    }
+
+    .welcome-container {
+        display: flex;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        width: 100%;
+    }
+
+    .welcome {
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        overflow: none;
+        width: 100%;
+    }
+
+
+    @media(max-width:650px) {
+        #typed {
+            font-size: 300% !important;
+        }
+    }
+
+    @media(max-width:992px) {
+        #typed {
+            font-size: 300% !important;
+        }
+
+        .welcomeMsg {
+            margin-top: 20px;
+        }
+    }
+
+
+    .welcomeMsg {
+        color: white;
+        display: block;
+        width: 100%;
+        text-align: center;
+        height: fit-content;
+    }
+
+    .welcome-container {
+        margin-top: 65px;
+    }
+
+
+
+    .welcomeMsg h1 {
+        font-size: 200%;
+    }
+
+    .welcomeMsg h3 {
+        font-size: 180%;
+    }
+
+
+    #typed {
+        font-size: 500%;
+        font-family: "Open Sans";
+    }
+
 </style>

@@ -1,5 +1,3 @@
-// Main function used to display the index.html file
-
 function doGet(e) {
   return HtmlService.createTemplateFromFile('index')
     .evaluate()
@@ -11,6 +9,7 @@ function include(filename) {
   return HtmlService.createHtmlOutputFromFile(filename)
     .getContent();
 }
+
 
 // This function is used to return two array of child folders and child folder's Id , where agrument is Parent Folder's Id
 
@@ -44,6 +43,7 @@ function Checker(parent_folder_id) {
 
   return [foldersArray, filesArray, foldersArrayID, parent_folder_id]
 }
+
 
 
 // This code is used for generating Years button --------------------------------------------------------------------
@@ -93,6 +93,7 @@ function Websitefetch(website_to_fetch) {
   return content
 }
 
+
 // getting id and name of folder for breadscrumb
 function getData(id) {
   var x = DriveApp.getFolderById(id);
@@ -101,38 +102,84 @@ function getData(id) {
   return [id, name];
 }
 
-// For getting info of all files and folders for updating the search spreadsheet
 
-var allFiles = [];
+
 var allFolders = [];
-
-function FilesInfo(id) {
+function getFolders(id) 
+{
   var folders = DriveApp.getFolderById(id).getFolders();
-
-  while (folders.hasNext()) {
+  
+  while(folders.hasNext())
+  {
     var folder = folders.next();
+    var name = folder.getName();
     var folderId = folder.getId();
-    var folderName = folder.getName();
-    var path = findPath(folderId);
-    allFolders.push([folderName, folderId, path]);
-    var files = folder.getFiles();
-    if (files.hasNext()) {
-      while (files.hasNext()) {
-        var file = files.next();
-        var name = file.getName();
-        var id = file.getId();
-        var path_for_file = findPath(id);
-        allFiles.push([name, id, path_for_file]);
-      }
-    }
-    else {
-      FilesInfo(folderId);
-    }
+    var folderPath = findPath(folderId);
+    allFolders.push([name, folderId, folderPath]);
+    getFolders(folderId);
   }
-
 }
 
-// for getting path of any file or folder
+function foldersToSheet()
+{
+  getFolders("ID_OF_FOLDER_CONTAINING_ALL_DATA");
+  var ss = SpreadsheetApp.openById("ID_OF_SPREADSHEET_WHERE_FILES_AND_FOLDER_INFO_IS_STORED_FOR_SEARCH");
+  var sheet = ss.getSheetByName("NAME_OF_SHEET_CONTAINING_FILES_AND_FOLDERS_INFO");
+  sheet.clear();
+  sheet.getRange(1, 1).setValue("Name");
+  sheet.getRange(1, 2).setValue("ID");
+  sheet.getRange(1, 3).setValue("Type");
+  sheet.getRange(1, 4).setValue("Path");
+  i = 0;
+  while(i < allFolders.length)
+  {
+    sheet.getRange(i+2, 1).setValue(allFolders[i][0]);
+    sheet.getRange(i+2, 2).setValue(allFolders[i][1]);
+    sheet.getRange(i+2, 3).setValue("Folder");
+    sheet.getRange(i+2, 4).setValue(allFolders[i][2]);
+    i += 1
+  }
+}
+
+var allFiles = []
+function getFiles()
+{
+  var ss = SpreadsheetApp.openById("ID_OF_SPREADSHEET_WHERE_FILES_AND_FOLDER_INFO_IS_STORED_FOR_SEARCH");
+  var sheet = ss.getSheetByName("NAME_OF_SHEET_CONTAINING_FILES_AND_FOLDERS_INFO");
+  var folders = sheet.getDataRange().getValues();
+  var i = 1;
+  while(i<folders.length)
+  {
+    var files = DriveApp.getFolderById(folders[i][1]).getFiles();
+    while(files.hasNext())
+    {
+      var file = files.next();
+      var name = file.getName();
+      var fileId = file.getId();
+      var filePath = folders[i][3] + "/" + name;
+      allFiles.push([name, fileId, filePath]);
+    }
+    i += 1;
+  }
+}
+
+function filesToSheet()
+{
+  getFiles();
+  var ss = SpreadsheetApp.openById("ID_OF_SPREADSHEET_WHERE_FILES_AND_FOLDER_INFO_IS_STORED_FOR_SEARCH");
+  var sheet = ss.getSheetByName("NAME_OF_SHEET_CONTAINING_FILES_AND_FOLDERS_INFO");
+  var length = sheet.getLastRow();
+  var i = 0;
+  while(i < allFiles.length)
+  {
+    sheet.getRange(length+1, 1).setValue(allFiles[i][0]);
+    sheet.getRange(length+1, 2).setValue(allFiles[i][1]);
+    sheet.getRange(length+1, 3).setValue("File");
+    sheet.getRange(length+1, 4).setValue(allFiles[i][2]);
+    length += 1;
+    i += 1;
+  }
+}
 
 var pathline = [];
 function getPath(id) {
@@ -157,41 +204,6 @@ function findPath(id) {
   return final_path;
 }
 
-// updating the spreadsheet for search queries (has trigger for every 6 hours)
-
-function updateSpreadSheet() {
-  allFiles = [];
-  allFolders = [];
-  FilesInfo("ID_OF_FOLDER_CONTAINING_ALL_DATA");
-
-  var ss = SpreadsheetApp.openById("ID_OF_SPREADSHEET_WHERE_FILES_AND_FOLDER_INFO_IS_STORED_FOR_SEARCH");
-  var sheet = ss.getSheetByName("NAME_OF_SHEET_CONTAINING_FILES_AND_FOLDERS_INFO");
-  sheet.clear();
-  sheet.getRange(1, 1).setValue("Name");
-  sheet.getRange(1, 2).setValue("ID");
-  sheet.getRange(1, 3).setValue("Type");
-  sheet.getRange(1, 4).setValue("Path");
-  var i = 0;
-  while (i < allFiles.length) {
-    sheet.getRange(i + 2, 1).setValue(allFiles[i][0]);
-    sheet.getRange(i + 2, 2).setValue(allFiles[i][1]);
-    sheet.getRange(i + 2, 3).setValue("File");
-    sheet.getRange(i + 2, 4).setValue(allFiles[i][2]);
-    i += 1;
-  }
-
-  j = 0;
-  while (i < allFiles.length + allFolders.length) {
-    sheet.getRange(i + 2, 1).setValue(allFolders[j][0]);
-    sheet.getRange(i + 2, 2).setValue(allFolders[j][1]);
-    sheet.getRange(i + 2, 3).setValue("Folder");
-    sheet.getRange(i + 2, 4).setValue(allFolders[j][2]);
-    i += 1;
-    j += 1;
-  }
-
-}
-
 // returns the search results to javascript file
 
 function searchFiles(query) {
@@ -201,12 +213,18 @@ function searchFiles(query) {
   var data = sheet.getDataRange().getValues();
   var i = 1;
   while (i < data.length) {
-    if (data[i][0].toLowerCase().split(' ').join('').includes(query)) {
-      result.push(data[i]);
+    try
+    {
+      if (data[i][0].toLowerCase().split(' ').join('').includes(query)) {
+        result.push(data[i]);
+      }
+    }
+    catch(error)
+    {
+      Logger.log(data[i][0]);
     }
     i += 1;
   }
-  Logger.log(result);
   return result;
 }
 
